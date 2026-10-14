@@ -1,0 +1,14 @@
+services:
+  api:
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: sqlite:////data/crm.db
+      CORS_ORIGINS: '["http://localhost:8083"]'
+    volumes: [data:/data]
+  web:
+    build: ./frontend
+    ports: ["8083:80"]
+    depends_on: [api]
+volumes:
+  data:
