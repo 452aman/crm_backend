@@ -31,8 +31,8 @@ export default function LogModal({ onClose, hcpId }: { onClose: () => void; hcpI
   const toggleProduct = (id: number) => set('product_ids', d.product_ids.includes(id) ? d.product_ids.filter((x) => x !== id) : [...d.product_ids, id])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/50 p-4 pt-12" onClick={onClose}>
-      <div className="card w-full max-w-2xl space-y-4 p-6" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 pt-12 backdrop-blur-sm" onClick={onClose}>
+      <div className="card w-full max-w-2xl space-y-4 bg-[#0b1020] p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between"><h2 className="text-lg font-semibold">Log interaction</h2><button onClick={onClose} aria-label="Close"><X size={18} /></button></div>
         <div className="inline-flex rounded-lg bg-white/[0.07] p-1 text-sm">
           <button onClick={() => setMode('quick')} className={`flex items-center gap-1 rounded-md px-3 py-1.5 font-medium ${mode === 'quick' ? 'bg-white/[0.04] shadow-sm' : 'text-slate-400'}`}><Sparkles size={14} />Quick log (AI)</button>
