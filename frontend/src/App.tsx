@@ -15,7 +15,7 @@ function Protected({ manager = false }: { manager?: boolean }) {
   const token = useSelector((s: RootState) => s.auth.access)
   const { data: user, isLoading } = useMeQuery(undefined, { skip: !token })
   if (!token) return <Navigate to="/login" replace />
-  if (isLoading || !user) return <p className="p-8 text-slate-500">Loading…</p>
+  if (isLoading || !user) return <p className="p-8 text-slate-400">Loading…</p>
   if (manager && user.role !== 'manager') return <Navigate to="/" replace />
   return <Layout user={user} />
 }

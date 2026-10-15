@@ -35,15 +35,15 @@ export default function Interactions() {
       <div className="space-y-3">{data?.items.map((i) => (
         <div key={i.id} className="card p-4">
           <div className="flex flex-wrap items-center gap-2"><Link to={`/hcps/${i.hcp.id}`} className="font-semibold hover:underline">{i.hcp.name}</Link><SentimentBadge s={i.sentiment} />
-            <span className="rounded bg-slate-100 px-2 py-0.5 text-xs">{i.type.replace('_', ' ')}</span>{i.source !== 'form' && <span className="rounded bg-violet-50 px-2 py-0.5 text-xs text-violet-700">{i.source.replace('_', ' ')}</span>}
-            <span className="ml-auto text-xs text-slate-500">{fmtDate(i.occurred_on)}{me?.role === 'manager' && ` · ${i.rep.name}`}</span>
+            <span className="rounded bg-white/[0.07] px-2 py-0.5 text-xs">{i.type.replace('_', ' ')}</span>{i.source !== 'form' && <span className="rounded bg-violet-400/10 px-2 py-0.5 text-xs text-violet-300">{i.source.replace('_', ' ')}</span>}
+            <span className="ml-auto text-xs text-slate-400">{fmtDate(i.occurred_on)}{me?.role === 'manager' && ` · ${i.rep.name}`}</span>
             {(me?.id === i.rep.id) && <button className="text-slate-300 hover:text-rose-500" onClick={() => confirm('Delete this interaction?') && del(i.id)} aria-label="Delete"><Trash2 size={14} /></button>}</div>
-          <p className="mt-2 text-sm text-slate-600">{i.notes}</p>
-          {(i.products.length > 0 || i.next_steps) && <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">{i.products.map((p) => <span key={p.id} className="rounded-full bg-teal-50 px-2 py-0.5 text-brand-dark">{p.name}</span>)}{i.next_steps && <span className="text-slate-500">Next: {i.next_steps}</span>}</div>}
+          <p className="mt-2 text-sm text-slate-300">{i.notes}</p>
+          {(i.products.length > 0 || i.next_steps) && <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">{i.products.map((p) => <span key={p.id} className="rounded-full bg-teal-400/10 px-2 py-0.5 text-brand-dark">{p.name}</span>)}{i.next_steps && <span className="text-slate-400">Next: {i.next_steps}</span>}</div>}
         </div>))}
-        {data && data.total === 0 && <p className="card p-10 text-center text-slate-500">No interactions yet.</p>}
+        {data && data.total === 0 && <p className="card p-10 text-center text-slate-400">No interactions yet.</p>}
       </div>
-      <div className="flex items-center justify-center gap-3 text-sm"><button className="btn-ghost" disabled={page <= 1} onClick={() => setPage(page - 1)}>Previous</button><span className="text-slate-500">Page {page} of {pages}</span><button className="btn-ghost" disabled={page >= pages} onClick={() => setPage(page + 1)}>Next</button></div>
+      <div className="flex items-center justify-center gap-3 text-sm"><button className="btn-ghost" disabled={page <= 1} onClick={() => setPage(page - 1)}>Previous</button><span className="text-slate-400">Page {page} of {pages}</span><button className="btn-ghost" disabled={page >= pages} onClick={() => setPage(page + 1)}>Next</button></div>
       {open && <LogModal onClose={() => setOpen(false)} />}
     </div>
   )
