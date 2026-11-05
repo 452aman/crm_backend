@@ -1,5 +1,7 @@
 """Analytics and the AI assistant."""
 import json
+from collections import Counter
+from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
@@ -9,6 +11,7 @@ from sqlalchemy.orm import Session
 from app.agent.graph import run_agent
 from app.agent.tools import ToolKit
 from app.api.deps import current_user, manager_only
+from app.core.config import get_settings
 from app.db import SessionLocal, get_db
 from app.llm import get_llm
 from app.models import ChatMessage, PendingAction, User
@@ -16,6 +19,7 @@ from app.schemas import ActionOut, ChatIn
 from app.services import actions, analytics
 
 router = APIRouter(tags=["insights"])
+_chat_uses: Counter = Counter()  # (user id, day) -> requests; protects the LLM quota on the public demo
 
 
 @router.get("/analytics/overview")
@@ -61,6 +65,10 @@ async def chat(body: ChatIn, user: User = Depends(current_user)):
     if not llm.available:
         raise HTTPException(503, "The assistant needs GROQ_API_KEY. The rest of the CRM works without it.")
     uid = user.id
+    today = date.today()
+    if _chat_uses[(uid, today)] >= get_settings().assistant_daily_limit:
+        raise HTTPException(429, "Daily assistant limit reached. Please try again tomorrow.")
+    _chat_uses[(uid, today)] += 1
 
     async def gen():
         with SessionLocal() as db:

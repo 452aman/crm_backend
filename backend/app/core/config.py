@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:5173"]
     agent_max_steps: int = 6
     at_risk_days: int = 30
+    assistant_daily_limit: int = 40          # assistant requests per user per day (LLM budget guard)
 
 
 @lru_cache
